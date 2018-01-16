@@ -9,19 +9,24 @@ echo '{"color.ui": ["auto"], "user.email": ["travis-ci@noreply.halium.org"], "us
 
 export USE_CCACHE=1
 
-mkdir build
-cd build
+mkdir -p halium-build
+cd halium-build
 
-# init the hailum/android repos
-repo init -u https://github.com/Halium/android.git -b halium-7.1 --depth=1
+if ! [ -d .repo ]
+then
+	# init the hailum/android repos
+	repo init -u https://github.com/Halium/android.git -b halium-7.1 --depth=1
 
-# clone halium-devices
-mkdir halium
-cd halium
-git clone https://github.com/halium/halium-devices --branch=halium-7.1 --depth=1
-cd ..
+	# clone halium-devices
+	mkdir halium
+	cd halium
+	git clone https://github.com/halium/halium-devices --branch=halium-7.1 --depth=1
+	cd ..
+fi
 
-JOBS=25 ./halium/halium-devices/setup $HALIUM_DEVICE
+# checkout all repositories for the specific device
+JOBS=20 ./halium/halium-devices/setup $HALIUM_DEVICE
+repo sync -c -j20 --force-sync -q
 
 # setup for building
 source build/envsetup.sh
@@ -30,5 +35,8 @@ breakfast $HALIUM_DEVICE
 # compile and build everything
 mka mkbootimg
 mka hybris-boot
-mka systemimage
+#mka systemimage
+
+# FIXME: remove
+df -h
 

@@ -1,7 +1,10 @@
 dist: trusty
 language: c
 sudo: required
-cache: ccache
+cache:
+  ccache: true
+  directories:
+    - halium-build
 before_install:
   - sudo dpkg --add-architecture i386
   - curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
