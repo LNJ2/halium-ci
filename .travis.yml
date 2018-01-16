@@ -1,0 +1,37 @@
+dist: trusty
+language: c
+sudo: required
+cache: ccache
+before_install:
+  - sudo dpkg --add-architecture i386
+  - curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+  - chmod a+x ~/bin/repo
+addons:
+  apt:
+    packages:
+     - git gnupg flex bison gperf build-essential
+     - zip bzr curl libc6-dev libncurses5-dev:i386 x11proto-core-dev
+     - libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-glx:i386
+     - libgl1-mesa-dev g++-multilib mingw-w64-i686-dev tofrodos
+     - python-markdown libxml2-utils xsltproc zlib1g-dev:i386 schedtool
+     - liblz4-tool bc
+script:
+  - ./build.sh
+matrix:
+  include:
+   - env: HALIUM_DEVICE=T00F
+   - env: HALIUM_DEVICE=chaozu
+   - env: HALIUM_DEVICE=krillin
+   - env: HALIUM_DEVICE=FP2
+   - env: HALIUM_DEVICE=pme
+   - env: HALIUM_DEVICE=mako
+   - env: HALIUM_DEVICE=harpia
+   - env: HALIUM_DEVICE=cheeseburger
+   - env: HALIUM_DEVICE=dogo
+   - env: HALIUM_DEVICE=odin
+   - env: HALIUM_DEVICE=pollux
+   - env: HALIUM_DEVICE=pollux_windy
+   - env: HALIUM_DEVICE=scorpion
+   - env: HALIUM_DEVICE=scorpion_windy
+   - env: HALIUM_DEVICE=yuga
+
